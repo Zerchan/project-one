@@ -1,4 +1,9 @@
 node_modules
 .vscode
 variables
+variables.env
 *.lock
+layout.md
+.build/
+*.log
+.DS_Store
