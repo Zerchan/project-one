@@ -1,10 +1,10 @@
-version: "3"
+version: '3'
 services:
   prisma:
-    image: prismagraphql/prisma:1.26
+    image: prismagraphql/prisma:1.28.3
     restart: always
     ports:
-      - "4466:4466"
+    - "4466:4466"
     environment:
       PRISMA_CONFIG: |
         port: 4466
@@ -13,5 +13,6 @@ services:
         databases:
           default:
             connector: mongo
-            uri: mongodb+srv://admin:Harleypoisoncat-256@developmentcluster-8hgxr.mongodb.net/test?retryWrites=true
-            database: test_db
+            uri: >-
+              mongodb+srv://admin:Harleypoisoncat-256@developmentcluster-8hgxr.mongodb.net/admin?retryWrites=true
+            database: project_one_dev

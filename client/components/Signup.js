@@ -1,7 +1,9 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { gql } from "apollo-boost";
 import { Mutation } from 'react-apollo';
 // import { useMutation } from 'react-apollo-hooks';
+import Error from './ErrorMessage';
+import { CURRENT_USER_QUERY } from './User';
 
 const SIGNUP_MUTATION = gql`
     mutation SIGNUP_MUTATION(
@@ -35,35 +37,38 @@ export default () => {
     const saveToState = (e) => { setState({...state, [e.target.name]: e.target.value}) }
 
   return (
-    <Mutation mutation={SIGNUP_MUTATION} variables={state}>{
-        (signup, { error, loading }) => {
-            return (
-                <form method="post" onSubmit={async (e) => {
-                    e.preventDefault();
-                    const res = await signup();
-                    console.log(res);
-                    setState(initialState);
-                }}>
-                <fieldset disabled={loading} aria-busy={loading}>
-                    <h2>Sign Up for an Account</h2>
-                    {console.log(error)}
-                    <label htmlFor="name">
-                        Name
-                        <input type="text" placeholder="Name" name="name" value={state.name} onChange={saveToState}/>
-                    </label>
-                    <label htmlFor="email">
-                        Email
-                        <input type="email" placeholder="Email" name="email" value={state.email} onChange={saveToState}/>
-                    </label>
-                    <label htmlFor="password">
-                        Password
-                        <input type="password" placeholder="Password" name="password" value={state.password} onChange={saveToState}/>
-                    </label>
-                    <button type="submit">Sign up!</button>
-                </fieldset>
-            </form>)
-        }}</Mutation>
-     )
+    <Mutation mutation={SIGNUP_MUTATION} variables={state} refetchQueries={ [{ query: CURRENT_USER_QUERY }] }>
+        {
+            (signup, { error, loading }) => {
+                return (
+                    <form method="post" onSubmit={async (e) => {
+                        e.preventDefault();
+                        await signup();
+                        setState(initialState);
+                    }}>
+                        <fieldset disabled={loading} aria-busy={loading}>
+                            <h2>Sign Up for an Account</h2>
+                            <Error error={error}/>
+                            <label htmlFor="name">
+                                Name
+                                <input type="text" placeholder="Name" name="name" value={state.name} onChange={saveToState}/>
+                            </label>
+                            <label htmlFor="email">
+                                Email
+                                <input type="email" placeholder="Email" name="email" value={state.email} onChange={saveToState}/>
+                            </label>
+                            <label htmlFor="password">
+                                Password
+                                <input type="password" placeholder="Password" name="password" value={state.password} onChange={saveToState}/>
+                            </label>
+                            <button type="submit">Sign up!</button>
+                        </fieldset>
+                    </form>
+                )
+            }
+        }
+    </Mutation>
+    )
 }
 
 // class Signup extends Component {

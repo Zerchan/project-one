@@ -3,6 +3,8 @@
 # Our public facing API
 
 type Mutation {
+  signup(email: String!, password: String!, name: String!): User!
+  signin(email: String!, password: String!): User!
   # createItem(
   #   title: String
   #   description: String
@@ -12,12 +14,12 @@ type Mutation {
   # ): Item!
   # updateItem(id: ID!, title: String, description: String, price: Int): Item!
   # deleteItem(id: ID!): Item
-  signup(email: String!, password: String!, name: String!): User!
 }
 
 type Query {
+  me: User
   # item(where: ItemWhereUniqueInput!): Item
   # items: [Item]!
   # itemsConnection(where: ItemWhereInput): ItemConnection!
-  hi: String!
+  # hi: String!
 }
