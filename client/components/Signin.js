@@ -17,7 +17,7 @@ const SIGNIN_MUTATION = gql`
     }
 `;
 
-export default () => {
+const SignIn = () => {
     const initialState = {
         email: '',
         password: ''
@@ -56,3 +56,5 @@ export default () => {
     </Mutation>
     )
 }
+
+export default SignIn;
