@@ -7,11 +7,33 @@ type SuccessMessage {
 
 type Mutation {
   signup(email: String!, password: String!, name: String!): User!
+
   signin(email: String!, password: String!): User!
+
   signout: SuccessMessage
+
   requestReset(email: String!): SuccessMessage
+
   resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
+
   updatePermissions(permissions: [Permission], userId: ID!): User
+
+  createReservation(
+    startDate: DateTime!
+    endDate: DateTime!
+    comments: String
+  ):Reservation
+
+  # updateReservation(
+  #   id: ID!
+  #   status: Status
+  #   startDate: DateTime
+  #   endDate: DateTime
+  #   comments: String
+  # ):Reservation
+
+  # deleteReservation(id: ID!): Reservation
+
   # createItem(
   #   title: String
   #   description: String
@@ -26,6 +48,8 @@ type Mutation {
 type Query {
   me: User
   users: [User]!
+  reservations: [Reservation]
+  reservation(where: ReservationWhereUniqueInput!): Reservation
   # item(where: ItemWhereUniqueInput!): Item
   # items: [Item]!
   # itemsConnection(where: ItemWhereInput): ItemConnection!

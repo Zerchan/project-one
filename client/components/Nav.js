@@ -1,36 +1,44 @@
 import React, { Fragment } from "react";
 import Link from "next/link";
-// import NavStyles from "./styles/NavStyles";
+import { StyledNav } from "./styles/nav";
 import User from './User';
 import Signout from './Signout';
 
 const Nav = () => (
     <User>
       { ({data: { me }}) => (
-        <ul>
-          <Link href="/items">
-            <a>Shop</a>
-          </Link>
+        <StyledNav>
           { me && (
             <Fragment>
-              <Link href="/orders">
-                <a>Orders</a>
-              </Link>
-              <Link href="/sell">
-                <a>Sell</a>
-              </Link>
-              <Link href="/me">
-                <a>Account</a>
-              </Link>
+              <li>
+                <Link href="/reservations">
+                  <a>Create Reservation</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/permissions">
+                  <a>Permissions</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/me">
+                  <a>My Account</a>
+                </Link>
+              </li>
               <Signout/>
             </Fragment>
           )}
           {!me && (
-            <Link href="/signup">
-              <a>Sign In</a>
-            </Link>
+            <Fragment>
+              <Link href="/signup">
+                <a>Sign In</a>
+              </Link>
+              <Link href="/signup">
+                <a>Sign Up</a>
+              </Link>
+            </Fragment>
           )}
-        </ul>
+        </StyledNav>
       ) }
     </User>
 );

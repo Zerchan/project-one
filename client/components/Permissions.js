@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Query, Mutation } from 'react-apollo';
 import { gql } from "apollo-boost";
@@ -59,6 +59,10 @@ const Permissions = props => (
 
 const UserRow = ({user}) => {
     const [permissions, setPermissions] = useState(user.permissions);
+
+    useEffect(() => {
+        console.log(permissions);
+    }, [permissions]);
 
     const handlePermissionChange = (e) => {
         const checkbox = e.target;

@@ -1,11 +1,13 @@
 // import Items from "../components/Items";
+import PleaseSignIn from '../components/PleaseSignIn';
+import Calendar from '../components/Calendar';
 
 const Home = ({ query: { page } }) => {
   return (
-    <div>
+    <PleaseSignIn>
       {/*<Items page={parseFloat(page) || 1} />*/}
-      Hello Project One
-    </div>
+      <Calendar />
+    </PleaseSignIn>
   );
 };
 
