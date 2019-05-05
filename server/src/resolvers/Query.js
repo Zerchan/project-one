@@ -23,7 +23,9 @@ const Query = {
     hasPermission(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE']);
     // quey all the users
     return ctx.db.query.users({}, info);
-  }
+  },
+  reservations: forwardTo("db"),
+  reservation: forwardTo("db")
   // items: forwardTo("db"),
   // item: forwardTo("db"),
   // itemsConnection: forwardTo("db")

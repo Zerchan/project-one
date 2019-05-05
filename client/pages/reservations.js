@@ -1,9 +1,10 @@
 import PleaseSignIn from '../components/PleaseSignIn';
+import Reservations from '../components/Reservations';
 
 const ReservationsPage = props => {
     return (
         <PleaseSignIn>
-            <p>Reservations</p>
+            <Reservations />
         </PleaseSignIn>
        
     );

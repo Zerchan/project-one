@@ -73,7 +73,7 @@ const Mutations = {
   },
   async signin(parent, { email, password }, ctx, info) {
     // check if there is a user with that email
-    const user = await ctx.db.query.user({ where: { email } });
+    const user = await ctx.db.query.user({ where: { email: email.toLowerCase() } });
     if(!user) throw new Error('No user found');
     // check if their password is correct
     const valid = await bcrypt.compare(password, user.password);
@@ -93,15 +93,16 @@ const Mutations = {
     return { message: 'Good Bye!' }
   },
   async requestReset(parent, args, ctx, info) {
+    const email = args.email.toLowerCase();
     // check if this is a real user
-    const user = await ctx.db.query.user({ where: { email: args.email } });
+    const user = await ctx.db.query.user({ where: { email } });
     if(!user) throw new Error('No user found');
     // set a reset token and expiry on that user
     const randomBytesPromise = promisify(randomBytes);
     const resetToken = (await randomBytesPromise(20)).toString('hex');
     const resetTokenExpiry = Date.now() + 3600000; // 1 hour
     const res = await ctx.db.mutation.updateUser({
-      where: { email: args.email },
+      where: { email },
       data: { resetToken, resetTokenExpiry }
     });
     // email them that reset token
@@ -131,7 +132,7 @@ const Mutations = {
     const password = await bcrypt.hash(args.password, 10);
     // save the new password to the user and remove old resetToken fields
     const updatedUser = await ctx.db.mutation.updateUser({
-      where: { email: user.email },
+      where: { email: user.email.toLowerCase() },
       data: { password, resetToken: null, resetTokenExpiry: null }
     })
     // generate JWT
@@ -165,6 +166,27 @@ const Mutations = {
         id: args.userId
       }
     }, info);
+  },
+  async createReservation(parent, args, ctx, info) {
+    // Check if they are logged in
+    const userId = ctx.request.userId;
+    if(!userId) throw new Error('You must be logged in');
+
+    const reservation = await ctx.db.mutation.createReservation(
+      {
+        data: {
+          ...args,
+          userId: userId,
+          user: {
+            connect: {
+              id: userId
+            }
+          }
+        }
+      },
+      info
+    );
+    return reservation;
   }
 };
 
