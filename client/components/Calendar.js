@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import cuid from 'cuid';
 import moment from 'moment';
-import { StyledCalendar, WeekDay, Day, CurrentDay, EmptyDay } from './styles/calendar';
+import { StyledCalendar, CalendarGrid, PrevBtn, NextBtn, WeekDay, Day, CurrentDay, EmptyDay, Month, Year } from './styles/calendar';
 import { filledArray, toMatrix } from '../lib/utils';
 
 moment.locale('es', {
@@ -93,29 +93,18 @@ const Calendar = () => {
         return renderCurrentDay ? <CurrentDay key={cuid()}>{day}</CurrentDay> : <Day key={cuid()}>{day}</Day>
     });
 
-    const totalSlots = [...blanksBefore, ...daysInMonth, ...blanksAfter];
-    const rows = toMatrix(totalSlots, 7);
-    
-    const renderDays = rows.map((day) => {
-        return <tr key={cuid()}>{day}</tr>;
-    });
+    const totalDays = [...blanksBefore, ...daysInMonth, ...blanksAfter];
 
     return (
         <StyledCalendar>
-            <thead>
-                <tr>
-                    <WeekDay><span onClick={() => { setDateObject(moment(dateObject.subtract(1, 'month'))) }}>Prev</span></WeekDay>
-                    <WeekDay colSpan={3}>{dateObject.format('MMMM')}</WeekDay>
-                    <WeekDay colSpan={2}>{dateObject.format('YYYY')}</WeekDay>
-                    <WeekDay><span onClick={() => { setDateObject(moment(dateObject.add(1, 'month'))) }}>Next</span></WeekDay>
-                </tr>
-                <tr>
-                    { renderWeekDays() }
-                </tr>
-            </thead>
-            <tbody>
-                { renderDays }
-            </tbody>
+            <CalendarGrid>
+                <PrevBtn><span onClick={() => { setDateObject(moment(dateObject.subtract(1, 'month'))) }}>{'<'}</span></PrevBtn>
+                <Month>{dateObject.format('MMMM')}</Month>
+                <Year>{dateObject.format('YYYY')}</Year>
+                <NextBtn><span onClick={() => { setDateObject(moment(dateObject.add(1, 'month'))) }}>{'>'}</span></NextBtn>
+            </CalendarGrid>
+            <CalendarGrid>{ renderWeekDays() }</CalendarGrid>
+            <CalendarGrid>{ totalDays }</CalendarGrid>
         </StyledCalendar>
     )
 }

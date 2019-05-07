@@ -4,14 +4,18 @@ import Header from "./Header";
 import Meta from "./Meta";
 
 const theme = {
-  red: "#FF0000",
-  black: "#393939",
-  grey: "#3a3a3a",
-  lightgrey: "#e1e1e1",
-  offwhite: "#ededed",
+  red: "#DB5461",
+  black: "#221E22",
+  green: "#5F9EA0",
+  smalt: "#4E8283",
+  orange: "#F5853F",
+  linen: "#FAEEDE",
+  lace: "#FBF4EA",
   maxWidth: "1400px",
-  bs: "0 12px 24px 0 rgba(0, 0, 0, 0.9)",
-  lgMedia: "1300px"
+  smMedia: "320px",
+  mdMedia: "768px",
+  lgMedia: "1224px",
+  xlMedia: "1824px"
 };
 
 injectGlobal`
@@ -74,8 +78,9 @@ injectGlobal`
       font-family: 'radnika_next';
       padding: 0;
       margin: 0;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       line-height: 2;
+      color: ${theme.black};
   }
   a {
       text-decoration: none;
