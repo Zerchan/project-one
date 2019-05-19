@@ -6,6 +6,8 @@ const Meta = () => (
     <meta charSet="utf-8" />
     <link rel="shortcut icon" href="/static/favicon.png" />
     <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
+    <link rel="stylesheet" type="text/css" href="/static/react-datepicker.css" />
+    <link rel="stylesheet" type="text/css" href="/static/icofont.css" />
     <title>Project One</title>
   </Head>
 );

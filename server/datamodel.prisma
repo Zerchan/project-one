@@ -1,15 +1,43 @@
 enum Permission {
   ADMIN
   USER
+  GUARD
   PERMISSIONUPDATE
 }
 
-type User {
+enum Status {
+  PENDING
+  APPROVED
+  DECLINED
+}
+
+type User @db(name: "user") {
   id: ID! @id
   name: String!
   email: String! @unique
   password: String!
   resetToken: String
   resetTokenExpiry: Float
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
   permissions: [Permission]
+  reservations: [Reservation!]! @relation(link: INLINE)
+}
+
+type Reservation @db(name: "reservation") {
+  id: ID! @id
+  user: User!
+  userId: String!
+  status: Status! @default(value: PENDING)
+  startDate: Timeframe! @relation(name: "StartingDate")
+  endDate: Timeframe @relation(name: "EndingDate")
+  comments: String
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Timeframe @embedded {
+  date: DateTime!
+  start: DateTime!
+  end: DateTime
 }

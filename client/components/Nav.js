@@ -1,34 +1,50 @@
 import React, { Fragment } from "react";
 import Link from "next/link";
-// import NavStyles from "./styles/NavStyles";
+import { StyledNav, StyledNavItem } from "./styles/nav";
 import User from './User';
+import Signout from './Signout';
 
 const Nav = () => (
     <User>
       { ({data: { me }}) => (
-        <ul>
-          <Link href="/items">
-            <a>Shop</a>
-          </Link>
+        <StyledNav>
           { me && (
             <Fragment>
-              <Link href="/orders">
-                <a>Orders</a>
-              </Link>
-              <Link href="/sell">
-                <a>Sell</a>
-              </Link>
-              <Link href="/me">
-                <a>Account</a>
-              </Link>
+              <StyledNavItem>
+                <Link href="/reservations">
+                  <a>Reservations</a>
+                </Link>
+              </StyledNavItem>
+              <StyledNavItem>
+                <Link href="/permissions">
+                  <a>Permissions</a>
+                </Link>
+              </StyledNavItem>
+              <StyledNavItem>
+                <Link href="/me">
+                  <a>My Account</a>
+                </Link>
+              </StyledNavItem>
+              <StyledNavItem>
+                <Signout/>
+              </StyledNavItem>
             </Fragment>
           )}
           {!me && (
-            <Link href="/signup">
-              <a>Sign In</a>
-            </Link>
+            <Fragment>
+              <StyledNavItem>
+                <Link href="/signin">
+                  <a>Sign In</a>
+                </Link>
+              </StyledNavItem>
+              <StyledNavItem>
+                <Link href="/signup">
+                  <a>Sign Up</a>
+                </Link>
+              </StyledNavItem>
+            </Fragment>
           )}
-        </ul>
+        </StyledNav>
       ) }
     </User>
 );
