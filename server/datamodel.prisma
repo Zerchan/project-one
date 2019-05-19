@@ -1,6 +1,7 @@
 enum Permission {
   ADMIN
   USER
+  GUARD
   PERMISSIONUPDATE
 }
 
@@ -28,9 +29,15 @@ type Reservation @db(name: "reservation") {
   user: User!
   userId: String!
   status: Status! @default(value: PENDING)
-  startDate: DateTime!
-  endDate: DateTime!
+  startDate: Timeframe! @relation(name: "StartingDate")
+  endDate: Timeframe @relation(name: "EndingDate")
   comments: String
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+}
+
+type Timeframe @embedded {
+  date: DateTime!
+  start: DateTime!
+  end: DateTime
 }

@@ -1,39 +1,65 @@
 import styled from 'styled-components';
 
-export const StyledCalendar = styled.table`
+const CalendarCell = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const StyledCalendar = styled.div`
     width: 100%;
-    margin: auto;
-	border-collapse: collapse;
-	border: 1px solid #fff; /*for older IE*/
-	border-style: hidden;
 `;
 
-export const WeekDay = styled.th`
-    background: cadetblue;
+export const CalendarGrid = styled(StyledCalendar)`
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+`;
+
+export const NavBtn = styled(CalendarCell)`
+    cursor: pointer;
+    background: ${({ theme }) => theme.green};
     height: 50px;
-    text-align: center;
-    vertical-align: middle;
+    span {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    :hover {
+        background: ${({ theme }) => theme.smalt};
+    }
+`;
+export const PrevBtn = styled(NavBtn)`
+    border-top-left-radius: 30px;
+`;
+export const NextBtn = styled(NavBtn)`
+    border-top-right-radius: 30px;
 `;
 
-export const Day = styled.td`
-    background: antiquewhite;
-    height: 100px;
-    text-align: center;
-    vertical-align: middle;
+export const WeekDay = styled(CalendarCell)`
+    background: ${({ theme }) => theme.green};
+    height: 50px;
+    text-transform: capitalize;
 `;
 
-export const CurrentDay = styled.td`
-    background: antiquewhite;
-    height: 100px;
-    text-align: center;
-    vertical-align: middle;
-    color: red;
+export const Month = styled(WeekDay)`
+    grid-column-start: span 3;
+    text-transform: capitalize;
 `;
 
-export const EmptyDay = styled.td`
-    background: antiquewhite;
+export const Year = styled(WeekDay)`
+    grid-column-start: span 2;
+`;
+
+export const Day = styled(CalendarCell)`
+    background: ${({ theme }) => theme.linen};
     height: 100px;
-    text-align: center;
-    opacity: 0.7;
-    vertical-align: middle;
+`;
+
+export const CurrentDay = styled(Day)`
+    color: ${({ theme }) => theme.smalt};
+    border: 1px dashed ${({ theme }) => theme.smalt};
+`;
+
+export const EmptyDay = styled(Day)`
+    background: ${({ theme }) => theme.lace};
 `;

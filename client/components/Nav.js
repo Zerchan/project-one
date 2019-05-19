@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import Link from "next/link";
-import { StyledNav } from "./styles/nav";
+import { StyledNav, StyledNavItem } from "./styles/nav";
 import User from './User';
 import Signout from './Signout';
 
@@ -10,32 +10,38 @@ const Nav = () => (
         <StyledNav>
           { me && (
             <Fragment>
-              <li>
+              <StyledNavItem>
                 <Link href="/reservations">
-                  <a>Create Reservation</a>
+                  <a>Reservations</a>
                 </Link>
-              </li>
-              <li>
+              </StyledNavItem>
+              <StyledNavItem>
                 <Link href="/permissions">
                   <a>Permissions</a>
                 </Link>
-              </li>
-              <li>
+              </StyledNavItem>
+              <StyledNavItem>
                 <Link href="/me">
                   <a>My Account</a>
                 </Link>
-              </li>
-              <Signout/>
+              </StyledNavItem>
+              <StyledNavItem>
+                <Signout/>
+              </StyledNavItem>
             </Fragment>
           )}
           {!me && (
             <Fragment>
-              <Link href="/signup">
-                <a>Sign In</a>
-              </Link>
-              <Link href="/signup">
-                <a>Sign Up</a>
-              </Link>
+              <StyledNavItem>
+                <Link href="/signin">
+                  <a>Sign In</a>
+                </Link>
+              </StyledNavItem>
+              <StyledNavItem>
+                <Link href="/signup">
+                  <a>Sign Up</a>
+                </Link>
+              </StyledNavItem>
             </Fragment>
           )}
         </StyledNav>
