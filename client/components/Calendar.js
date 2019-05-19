@@ -98,10 +98,10 @@ const Calendar = () => {
     return (
         <StyledCalendar>
             <CalendarGrid>
-                <PrevBtn><span onClick={() => { setDateObject(moment(dateObject.subtract(1, 'month'))) }}>{'<'}</span></PrevBtn>
+                <PrevBtn><span onClick={() => { setDateObject(moment(dateObject.subtract(1, 'month'))) }}><i className="icofont-rounded-left"></i></span></PrevBtn>
                 <Month>{dateObject.format('MMMM')}</Month>
                 <Year>{dateObject.format('YYYY')}</Year>
-                <NextBtn><span onClick={() => { setDateObject(moment(dateObject.add(1, 'month'))) }}>{'>'}</span></NextBtn>
+                <NextBtn><span onClick={() => { setDateObject(moment(dateObject.add(1, 'month'))) }}><i className="icofont-rounded-right"></i></span></NextBtn>
             </CalendarGrid>
             <CalendarGrid>{ renderWeekDays() }</CalendarGrid>
             <CalendarGrid>{ totalDays }</CalendarGrid>

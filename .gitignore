@@ -8,3 +8,4 @@ layout.md
 .next/
 *.log
 .DS_Store
+assets/

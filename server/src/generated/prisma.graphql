@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Apr 21 2019 15:11:56 GMT-0600 (CST)
+# timestamp: Thu May 16 2019 00:40:23 GMT-0600 (CST)
 
 type AggregateReservation {
   count: Int!
@@ -67,6 +67,7 @@ type PageInfo {
 enum Permission {
   ADMIN
   USER
+  GUARD
   PERMISSIONUPDATE
 }
 
@@ -90,8 +91,8 @@ type Reservation implements Node {
   user: User!
   userId: String!
   status: Status!
-  startDate: DateTime!
-  endDate: DateTime!
+  startDate: Timeframe!
+  endDate: Timeframe
   comments: String
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -111,10 +112,10 @@ input ReservationCreateInput {
   id: ID
   userId: String!
   status: Status
-  startDate: DateTime!
-  endDate: DateTime!
   comments: String
   user: UserCreateOneWithoutReservationsInput!
+  startDate: TimeframeCreateOneInput!
+  endDate: TimeframeCreateOneInput
 }
 
 input ReservationCreateManyWithoutUserInput {
@@ -126,9 +127,9 @@ input ReservationCreateWithoutUserInput {
   id: ID
   userId: String!
   status: Status
-  startDate: DateTime!
-  endDate: DateTime!
   comments: String
+  startDate: TimeframeCreateOneInput!
+  endDate: TimeframeCreateOneInput
 }
 
 """An edge in a connection."""
@@ -147,10 +148,6 @@ enum ReservationOrderByInput {
   userId_DESC
   status_ASC
   status_DESC
-  startDate_ASC
-  startDate_DESC
-  endDate_ASC
-  endDate_DESC
   comments_ASC
   comments_DESC
   createdAt_ASC
@@ -163,8 +160,6 @@ type ReservationPreviousValues {
   id: ID!
   userId: String!
   status: Status!
-  startDate: DateTime!
-  endDate: DateTime!
   comments: String
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -269,50 +264,6 @@ input ReservationScalarWhereInput {
 
   """All values that are not contained in given list."""
   status_not_in: [Status!]
-  startDate: DateTime
-
-  """All values that are not equal to given value."""
-  startDate_not: DateTime
-
-  """All values that are contained in given list."""
-  startDate_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  startDate_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  startDate_lt: DateTime
-
-  """All values less than or equal the given value."""
-  startDate_lte: DateTime
-
-  """All values greater than the given value."""
-  startDate_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  startDate_gte: DateTime
-  endDate: DateTime
-
-  """All values that are not equal to given value."""
-  endDate_not: DateTime
-
-  """All values that are contained in given list."""
-  endDate_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  endDate_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  endDate_lt: DateTime
-
-  """All values less than or equal the given value."""
-  endDate_lte: DateTime
-
-  """All values greater than the given value."""
-  endDate_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  endDate_gte: DateTime
   comments: String
 
   """All values that are not equal to given value."""
@@ -435,25 +386,21 @@ input ReservationSubscriptionWhereInput {
 input ReservationUpdateInput {
   userId: String
   status: Status
-  startDate: DateTime
-  endDate: DateTime
   comments: String
   user: UserUpdateOneRequiredWithoutReservationsInput
+  startDate: TimeframeUpdateOneRequiredInput
+  endDate: TimeframeUpdateOneInput
 }
 
 input ReservationUpdateManyDataInput {
   userId: String
   status: Status
-  startDate: DateTime
-  endDate: DateTime
   comments: String
 }
 
 input ReservationUpdateManyMutationInput {
   userId: String
   status: Status
-  startDate: DateTime
-  endDate: DateTime
   comments: String
 }
 
@@ -477,9 +424,9 @@ input ReservationUpdateManyWithWhereNestedInput {
 input ReservationUpdateWithoutUserDataInput {
   userId: String
   status: Status
-  startDate: DateTime
-  endDate: DateTime
   comments: String
+  startDate: TimeframeUpdateOneRequiredInput
+  endDate: TimeframeUpdateOneInput
 }
 
 input ReservationUpdateWithWhereUniqueWithoutUserInput {
@@ -586,50 +533,6 @@ input ReservationWhereInput {
 
   """All values that are not contained in given list."""
   status_not_in: [Status!]
-  startDate: DateTime
-
-  """All values that are not equal to given value."""
-  startDate_not: DateTime
-
-  """All values that are contained in given list."""
-  startDate_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  startDate_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  startDate_lt: DateTime
-
-  """All values less than or equal the given value."""
-  startDate_lte: DateTime
-
-  """All values greater than the given value."""
-  startDate_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  startDate_gte: DateTime
-  endDate: DateTime
-
-  """All values that are not equal to given value."""
-  endDate_not: DateTime
-
-  """All values that are contained in given list."""
-  endDate_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  endDate_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  endDate_lt: DateTime
-
-  """All values less than or equal the given value."""
-  endDate_lte: DateTime
-
-  """All values greater than the given value."""
-  endDate_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  endDate_gte: DateTime
   comments: String
 
   """All values that are not equal to given value."""
@@ -715,6 +618,8 @@ input ReservationWhereInput {
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
   user: UserWhereInput
+  startDate: TimeframeWhereInput
+  endDate: TimeframeWhereInput
 }
 
 input ReservationWhereUniqueInput {
@@ -730,6 +635,117 @@ enum Status {
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   reservation(where: ReservationSubscriptionWhereInput): ReservationSubscriptionPayload
+}
+
+type Timeframe {
+  date: DateTime!
+  start: DateTime!
+  end: DateTime
+}
+
+input TimeframeCreateInput {
+  date: DateTime!
+  start: DateTime!
+  end: DateTime
+}
+
+input TimeframeCreateOneInput {
+  create: TimeframeCreateInput
+}
+
+input TimeframeUpdateDataInput {
+  date: DateTime
+  start: DateTime
+  end: DateTime
+}
+
+input TimeframeUpdateOneInput {
+  create: TimeframeCreateInput
+  delete: Boolean
+  update: TimeframeUpdateDataInput
+  upsert: TimeframeUpsertNestedInput
+}
+
+input TimeframeUpdateOneRequiredInput {
+  create: TimeframeCreateInput
+  update: TimeframeUpdateDataInput
+  upsert: TimeframeUpsertNestedInput
+}
+
+input TimeframeUpsertNestedInput {
+  update: TimeframeUpdateDataInput!
+  create: TimeframeCreateInput!
+}
+
+input TimeframeWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TimeframeWhereInput!]
+  date: DateTime
+
+  """All values that are not equal to given value."""
+  date_not: DateTime
+
+  """All values that are contained in given list."""
+  date_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  date_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  date_lt: DateTime
+
+  """All values less than or equal the given value."""
+  date_lte: DateTime
+
+  """All values greater than the given value."""
+  date_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  date_gte: DateTime
+  start: DateTime
+
+  """All values that are not equal to given value."""
+  start_not: DateTime
+
+  """All values that are contained in given list."""
+  start_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  start_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  start_lt: DateTime
+
+  """All values less than or equal the given value."""
+  start_lte: DateTime
+
+  """All values greater than the given value."""
+  start_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  start_gte: DateTime
+  end: DateTime
+
+  """All values that are not equal to given value."""
+  end_not: DateTime
+
+  """All values that are contained in given list."""
+  end_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  end_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  end_lt: DateTime
+
+  """All values less than or equal the given value."""
+  end_lte: DateTime
+
+  """All values greater than the given value."""
+  end_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  end_gte: DateTime
 }
 
 type User implements Node {

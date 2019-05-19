@@ -2,20 +2,26 @@ import React, { Component } from "react";
 import styled, { injectGlobal, ThemeProvider } from "styled-components";
 import Header from "./Header";
 import Meta from "./Meta";
-
+// import theme from '../themes/sunset.theme';
 const theme = {
-  red: "#DB5461",
+  // COLORS
+  alto: "#D1D1D1",
   black: "#221E22",
+  dove: "#707070",
   green: "#5F9EA0",
-  smalt: "#4E8283",
-  orange: "#F5853F",
-  linen: "#FAEEDE",
   lace: "#FBF4EA",
-  maxWidth: "1400px",
+  linen: "#FAEEDE",
+  orange: "#F5853F",
+  red: "#DB5461",
+  smalt: "#4E8283",
+  silver: "#A8A8A8",
+  white: "#FFFFFF",
+  // SIZES
   smMedia: "320px",
   mdMedia: "768px",
   lgMedia: "1224px",
-  xlMedia: "1824px"
+  xlMedia: "1824px",
+  maxWidth: "1400px"
 };
 
 injectGlobal`
@@ -102,11 +108,11 @@ const Inner = styled.div`
 class Page extends Component {
   render() {
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={ theme }>
         <StyledPage>
           <Meta />
           <Header />
-          <Inner>{this.props.children}</Inner>
+          <Inner>{ this.props.children }</Inner>
         </StyledPage>
       </ThemeProvider>
     );

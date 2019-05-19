@@ -19,6 +19,10 @@ var models = [
   {
     name: "Reservation",
     embedded: false
+  },
+  {
+    name: "Timeframe",
+    embedded: true
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
