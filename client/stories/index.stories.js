@@ -26,8 +26,8 @@ import '../static/icofont.css';
 //   ));
 
 storiesOf('Button', module)
-    .add('standard', () => <Button onClick={action('clicked')}>Press Me</Button>)
-    .add('error', () => <Button error onClick={action('clicked')}>Press Me</Button>);
+    .add('standard', () => <Button onClick={action('clicked')}>Submit</Button>)
+    .add('cancel', () => <Button danger onClick={action('clicked')}>Cancel</Button>);
 
     storiesOf('Nav Item', module)
     .add('with icon', () => <StyledNavItem onClick={action('clicked')}><a><i className="icofont-ui-calendar"></i></a></StyledNavItem>);
