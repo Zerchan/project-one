@@ -12,15 +12,14 @@ export const StyledNavItem = styled.li`
     a, span {
         cursor: pointer;
         width: 100%;
+        font-size: 3.0rem;
         text-align: center;
-        border-top-left-radius: 30px;
-        border-top-right-radius: 30px;
-        border: 1px solid ${({ theme }) => theme.black};
-        border-bottom: 10px solid ${({ theme }) => theme.black};
-        :hover {
-            color: ${({ theme }) => theme.orange};
-            border: 1px solid ${({ theme }) => theme.orange};
-            border-bottom: 10px solid ${({ theme }) => theme.orange};
+        background-color: ${({ theme }) => theme.linen};
+        color: ${({ theme }) => theme.orange};
+        border-bottom: 1px solid ${({ theme }) => theme.orange};
+        :hover, :active {
+            color: ${({ theme }) => theme.lace};
+            background-color: ${({ theme }) => theme.orange};
         }
     }
 `;

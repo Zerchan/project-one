@@ -5,15 +5,19 @@
 * @copyright Copyright (c) 2015 - 2019 IcoFont 
 * @license - https://icofont.com/license/
 */
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
 
 @font-face
 {
- 
   font-family: "IcoFont";
-font-weight: normal;
-font-style: "Regular";
-src: url("./fonts/icofont.woff2") format("woff2"),
-url("./fonts/icofont.woff") format("woff");
+  font-weight: normal;
+  font-style: "Regular";
+  src: url("./icofont.eot") format("eot");
+  src: url("./icofont.eot?#iefix") format("embedded-opentype"),
+  url("./icofont.woff") format("woff"),
+  url("./icofont.woff2") format("woff2"),
+  url("./icofont.ttf") format("ttf"),
+  url("./icofont.svg#IcoFont") format('svg');
 }
 
 [class^="icofont-"], [class*=" icofont-"]
