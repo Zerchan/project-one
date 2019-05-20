@@ -12,6 +12,7 @@ export default {
     silver: "#A8A8A8",
     white: "#FFFFFF",
     // SIZES
+    base: 8,
     smMedia: "320px",
     mdMedia: "768px",
     lgMedia: "1224px",

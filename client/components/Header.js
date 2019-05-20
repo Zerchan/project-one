@@ -14,18 +14,19 @@ Router.onRouteChangeError = () => {
   NProgress.done();
 };
 
-const Logo = styled.h1`
-  font-size: 4rem;
-  margin: 0 2rem;
-  text-align: center;
-  z-index: 2;
+const UIBtns = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
-  a {
-    padding: 0.5rem 1rem;
-    margin: 0;
-    text-transform: uppercase;
-    text-decoration: none;
-  }
+const UIBtn = styled.a`
+  color: ${({theme}) => theme.lace};
+  font-size: 3.0rem;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  padding: 0 ${({theme}) => theme.base * 2}px;
 `;
 
 const StyledHeader = styled.header`
@@ -34,17 +35,21 @@ const StyledHeader = styled.header`
     grid-template-columns: 1fr;
     justify-content: center;
     align-items: stretch;
+    background-color: ${({theme}) => theme.green}
   }
 `;
 
 const Header = () => (
   <StyledHeader>
     <div className="bar">
-      <Logo>
+      <UIBtns>
         <Link href="/">
-          <a>One</a>
+          <UIBtn><i className="icofont-navigation-menu"></i></UIBtn>
         </Link>
-      </Logo>
+        <Link href="/">
+          <UIBtn><i className="icofont-ui-user"></i></UIBtn>
+        </Link>
+      </UIBtns>
       <Nav />
     </div>
     {/*<div className="sub-bar">
