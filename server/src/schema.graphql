@@ -1,6 +1,7 @@
 # import * from './generated/prisma.graphql'
 
 # Our public facing API
+
 type SuccessMessage {
   message: String
 }
@@ -19,10 +20,10 @@ type Mutation {
   updatePermissions(permissions: [Permission], userId: ID!): User
 
   createReservation(
-    startDate: DateTime!
-    endDate: DateTime!
+    startDate: TimeframeCreateOneInput,
+    endDate: TimeframeCreateOneInput,
     comments: String
-  ):Reservation
+  ): Reservation!
 
   # updateReservation(
   #   id: ID!
@@ -30,7 +31,7 @@ type Mutation {
   #   startDate: DateTime
   #   endDate: DateTime
   #   comments: String
-  # ):Reservation
+  # ): Reservation
 
   # deleteReservation(id: ID!): Reservation
 

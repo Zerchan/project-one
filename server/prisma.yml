@@ -3,9 +3,5 @@ datamodel: datamodel.prisma
 databaseType: document
 # secret: ${env:PRISMA_SECRET}
 generate:
-  - generator: javascript-client
-    output: ./generated/prisma-client/
-hooks:
-  post-deploy:
-    - graphql get-schema -p prisma
-    - prisma generate
+  - generator: graphql-schema
+    output: ./src/generated/prisma.graphql

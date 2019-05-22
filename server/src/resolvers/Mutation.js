@@ -107,6 +107,7 @@ const Mutations = {
     });
     // email them that reset token
     // TODO: try catch block here to catch any error while sending the email
+    // TODO: Chnage this for a real transport email
     await transport.sendMail({
       from: 'zerchan.development@gmail.com',
       to: user.email,
@@ -171,22 +172,45 @@ const Mutations = {
     // Check if they are logged in
     const userId = ctx.request.userId;
     if(!userId) throw new Error('You must be logged in');
+    
+    console.log(args);
 
-    const reservation = await ctx.db.mutation.createReservation(
-      {
-        data: {
-          ...args,
-          userId: userId,
-          user: {
-            connect: {
-              id: userId
-            }
-          }
-        }
+    const reservations = await ctx.db.query.reservations();
+
+    console.log(reservations);
+    
+    // const reservation = await ctx.db.mutation.createReservation(
+    //   {
+    //     data: {
+    //       ...args,
+    //       userId: userId,
+    //       user: {
+    //         connect: {
+    //           id: userId
+    //         }
+    //       }
+    //     }
+    //   },
+    //   info
+    // );
+    return {
+      "updatedAt": "2019-05-22T00:15:48.465Z",
+      "endDate": {
+        "date": "2019-05-26T00:00:00.000Z"
       },
-      info
-    );
-    return reservation;
+      "id": "5ce494b412f792000966e3ca",
+      "status": "PENDING",
+      "createdAt": "2019-05-22T00:15:48.465Z",
+      "userId": "5cbd41bf12f79200074dd4f9",
+      "startDate": {
+        "date": "2019-05-25T00:00:00.000Z"
+      },
+      "user": {
+        "id": "5cbd41bf12f79200074dd4f9",
+        "name": "testUser1"
+      },
+      "comments": "Whatever"
+    } // reservation;
   }
 };
 
