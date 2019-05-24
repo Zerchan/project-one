@@ -2,6 +2,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
+const differenceInCalendarDays = require('date-fns/difference_in_calendar_days');
+const getDate = require('date-fns/get_date');
+const getMonth = require('date-fns/get_month');
+
 const { transport, makeEmail } = require('../mail');
 const { hasPermission } = require("../utils");
 
@@ -107,7 +111,7 @@ const Mutations = {
     });
     // email them that reset token
     // TODO: try catch block here to catch any error while sending the email
-    // TODO: Chnage this for a real transport email
+    // TODO: Change this for a real transport email
     await transport.sendMail({
       from: 'zerchan.development@gmail.com',
       to: user.email,
@@ -172,13 +176,80 @@ const Mutations = {
     // Check if they are logged in
     const userId = ctx.request.userId;
     if(!userId) throw new Error('You must be logged in');
-    
-    console.log(args);
 
-    const reservations = await ctx.db.query.reservations();
+    // Get user reservations
+    const userReservations = await ctx.db.query.user(
+      {where:{id: userId}}, 
+      `
+        {
+          reservations {
+            status
+            startDate {
+              date
+              start
+              end
+            }
+            endDate {
+              date
+              start
+              end
+            }
+          }
+        }
+      `
+    );
 
-    console.log(reservations);
-    
+    const newResStartDate = args.startDate.create.date;
+    const newResEndDate = args.endDate.create.date || args.startDate.create.date;
+
+    // --Check if reservation is at more than 15 days from today
+    // TODO
+
+    // --Check if user have an APPROVED | PENDING reservation within 30 days before or after this reservation
+    userReservations.reservations.filter(res => res.status != 'DECLINED').forEach(reservation => {
+      const daysSinceLastRes = Math.abs(differenceInCalendarDays(newResStartDate, reservation.startDate.date));
+
+      if(daysSinceLastRes <= 30){
+        throw new Error('You have a reservation within 30 days before or after this reservation');
+      }
+    });
+
+    // Get all reservations
+    const allReservations = await ctx.db.query.reservations(
+      null,
+      `{
+        status,
+        startDate {
+          date
+          start
+          end
+        }
+        endDate {
+          date
+          start
+          end
+        }
+      }`
+    );
+
+    // --Check if the new reservation DATE overlaps with an already existing reservation
+    allReservations.filter(res => res.status != 'DECLINED').forEach(reservation => {
+      console.log(getDate(newResStartDate));
+      console.log(getMonth(newResStartDate));
+      // (reservation.startDate.date, newResStartDate)
+      console.log(getDate(reservation.startDate.date));
+      console.log(getMonth(reservation.startDate.date));
+
+      if(getDate(newResStartDate) === getDate(reservation.startDate.date)){
+        if(getMonth(newResStartDate) === getMonth(reservation.startDate.date)){
+          throw new Error('There is already a reservation this day');
+        }
+      }
+    });
+
+    // --Check if the new reservation HOURS don't overlap with an already existing reservation
+
+    // --Create the reservation !!
     // const reservation = await ctx.db.mutation.createReservation(
     //   {
     //     data: {
