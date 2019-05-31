@@ -4,14 +4,14 @@ const { hasPermission } = require("../utils/hasPermission");
 const Query = {
   me(parent, args, ctx, info) {
     // Check if there is a current user ID
-    // const userId = ctx.request.userId;
-    if(!ctx.request.userId){
+    const userId = ctx.request.userId;
+    if(!userId){
       return null;
     }
 
     return ctx.db.query.user(
       {
-        where: { id: ctx.request.userId }
+        where: { id: userId }
       },
       info
     );

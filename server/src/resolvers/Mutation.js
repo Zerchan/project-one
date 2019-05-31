@@ -194,6 +194,7 @@ const Mutations = {
       `
     );
 
+    // Convert the new reservation date to correct timezone
     const newResStartDate = cttz(args.startDate.create.date);
 
     // --Check if reservation is at more than 15 days from today
@@ -208,9 +209,9 @@ const Mutations = {
       }
     });
 
-    // Get all reservations
+    // Get all reservations that are APPROVED or PENDING
     const allReservations = await ctx.db.query.reservations(
-      null,
+      { where: { status_not: 'DECLINED' } },
       `{
         status,
         startDate {
@@ -222,10 +223,10 @@ const Mutations = {
     );
 
     // --Check if the new reservation DATE overlaps with an already existing reservation
-    allReservations.filter(res => res.status != 'DECLINED').forEach(reservation => {
+    allReservations.forEach(reservation => {
       // --Check if the new reservation HOURS don't overlap with an already existing reservation
       if(areReservationsOverlapping(args.startDate, reservation.startDate)){
-        throw new Error(`Your reservation is overlapping with a existing reservation`);
+        throw new Error(`Your reservation is overlapping with an existing reservation, please select a different date`);
       }
     });
 
