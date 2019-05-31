@@ -1,5 +1,5 @@
 const { forwardTo } = require("prisma-binding");
-const { hasPermission } = require("../utils");
+const { hasPermission } = require("../utils/hasPermission");
 
 const Query = {
   me(parent, args, ctx, info) {

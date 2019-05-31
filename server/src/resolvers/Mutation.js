@@ -3,18 +3,11 @@ const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 const differenceInCalendarDays = require('date-fns/difference_in_calendar_days');
-const getDate = require('date-fns/get_date');
-const getMonth = require('date-fns/get_month');
-const getHours = require('date-fns/get_hours');
-const startOfDay = require('date-fns/start_of_day');
-const isEqual = require('date-fns/is_equal');
-const format = require('date-fns/format');
-const { convertToLocalTime } = require('date-fns-timezone/dist/convertToLocalTime');
-const { convertToTimeZone } = require('date-fns-timezone/dist/convertToTimeZone');
-const { formatToTimeZone } = require('date-fns-timezone');
+const { cttz } = require('../utils/cttz');// convert to time zone
 
 const { transport, makeEmail } = require('../mail');
-const { hasPermission } = require("../utils");
+const { hasPermission } = require("../utils/hasPermission");
+const { areReservationsOverlapping } = require('../utils/areReservationsOverlapping');
 
 const Mutations = {
   //   createDog(parent, args, ctx, info) {
@@ -196,30 +189,12 @@ const Mutations = {
               start
               end
             }
-            endDate {
-              date
-              start
-              end
-            }
           }
         }
       `
     );
 
-    const timeZone = 'Etc/GMT'; // TODO: Load this from the condo info on the DB
-    const cttz = (date) => convertToTimeZone(date , { timeZone });
-    // const getTimezoneOffset = (date) => new Date(date).getTimezoneOffset() / 60;
-    // const tzOffset = getTimezoneOffset(args.startDate.create.date);
-
     const newResStartDate = cttz(args.startDate.create.date);
-    // const newResEndDate = cttz(args.endDate.create.date || args.startDate.create.date);
-    const newResStartHour = getHours(cttz(args.startDate.create.start));
-    const newResEndHour = getHours(cttz(args.endDate.create.end || args.startDate.create.end));
-    
-    // console.log(args);
-    // console.log(tzOffset);
-    console.log(newResStartHour);
-    console.log(newResEndHour);
 
     // --Check if reservation is at more than 15 days from today
     // TODO
@@ -229,7 +204,7 @@ const Mutations = {
       const daysSinceLastRes = Math.abs(differenceInCalendarDays(newResStartDate, reservation.startDate.date));
 
       if(daysSinceLastRes <= 30){
-        // throw new Error('You have a reservation within 30 days before or after this reservation');
+        throw new Error('You have a reservation within 30 days before or after this reservation');
       }
     });
 
@@ -243,64 +218,34 @@ const Mutations = {
           start
           end
         }
-        endDate {
-          date
-          start
-          end
-        }
       }`
     );
 
     // --Check if the new reservation DATE overlaps with an already existing reservation
     allReservations.filter(res => res.status != 'DECLINED').forEach(reservation => {
-      // TODO: Add a waiting time between reservations
-      const currResStartDate = cttz(reservation.startDate.date);
-      const currResEndDate = cttz(reservation.endDate.date);
-      const currResStartHour = cttz(reservation.startDate.start);
-      const currResEndHour = cttz(reservation.endDate.end || reservation.startDate.end);
-
-      if(isEqual(startOfDay(newResStartDate), startOfDay(currResStartDate))){
-        console.log('There is already a reservation this day');
-        // console.log(newResStartHour);
-        // console.log(newResEndHour);
+      // --Check if the new reservation HOURS don't overlap with an already existing reservation
+      if(areReservationsOverlapping(args.startDate, reservation.startDate)){
+        throw new Error(`Your reservation is overlapping with a existing reservation`);
       }
     });
 
-    // --Check if the new reservation HOURS don't overlap with an already existing reservation
+    // --Create reservation !!
+    const reservation = await ctx.db.mutation.createReservation(
+      {
+        data: {
+          ...args,
+          userId: userId,
+          user: {
+            connect: {
+              id: userId
+            }
+          }
+        }
+      },
+      info
+    );
 
-    // --Create the reservation !!
-    // const reservation = await ctx.db.mutation.createReservation(
-    //   {
-    //     data: {
-    //       ...args,
-    //       userId: userId,
-    //       user: {
-    //         connect: {
-    //           id: userId
-    //         }
-    //       }
-    //     }
-    //   },
-    //   info
-    // );
-    return {
-      "updatedAt": "2019-05-22T00:15:48.465Z",
-      "endDate": {
-        "date": "2019-05-26T00:00:00.000Z"
-      },
-      "id": "5ce494b412f792000966e3ca",
-      "status": "PENDING",
-      "createdAt": "2019-05-22T00:15:48.465Z",
-      "userId": "5cbd41bf12f79200074dd4f9",
-      "startDate": {
-        "date": "2019-05-25T00:00:00.000Z"
-      },
-      "user": {
-        "id": "5cbd41bf12f79200074dd4f9",
-        "name": "testUser1"
-      },
-      "comments": "Whatever"
-    } // reservation;
+    return reservation;
   }
 };
 
