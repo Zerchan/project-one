@@ -5,12 +5,9 @@ import { Fragment, useState, } from 'react';
 // import { gql } from "apollo-boost";
 // import Error from './ErrorMessage';
 import DatePicker from "react-datepicker";
-import moment from "moment";
 
 const Reservations = props => {
     const initialState = {
-        // startDate: new Date(),
-        // endDate: new Date(),
         comments: ''
     };
     
@@ -36,7 +33,7 @@ const Reservations = props => {
                     {/*<input type="text" placeholder="xx/xx/xxxx" name="startDate" value={state.startDate} onChange={saveToState}/>*/}
                     <DatePicker
                         showTimeSelect
-                        selected={moment(startDate)}
+                        selected={startDate}
                         onChange={setStartDate}
                     />
                 </label>
@@ -45,7 +42,7 @@ const Reservations = props => {
                     {/*<input type="text" placeholder="xx/xx/xxxx" name="endDate" value={state.endDate} onChange={saveToState}/>*/}
                     <DatePicker
                         showTimeSelect
-                        selected={moment(endDate)}
+                        selected={endDate}
                         onChange={setEndDate}
                     />
                 </label>
