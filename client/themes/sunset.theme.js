@@ -13,9 +13,10 @@ export default {
     white: "#FFFFFF",
     // SIZES
     base: 8,
-    smMedia: "320px",
-    mdMedia: "768px",
-    lgMedia: "1224px",
-    xlMedia: "1824px",
-    maxWidth: "1400px"
+    maxWidth: "1400px",
+    // BREAKPOINTS
+    sm: "320px",
+    md: "768px",
+    lg: "1224px",
+    xl: "1824px"
   };

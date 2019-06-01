@@ -6,8 +6,9 @@ import { action } from '@storybook/addon-actions';
 // import { Button, Welcome } from '@storybook/react/demo';
 import { Button } from '../components/styles/buttons';
 import { StyledNavItem } from '../components/styles/nav';
-// Font styles
+// Fonts and global styles
 import '../static/icofont.css';
+import './global.css';
 
 // storiesOf('Welcome', module).add('to Storybook', () => (
 //   <Welcome showApp={linkTo('Button')} />
