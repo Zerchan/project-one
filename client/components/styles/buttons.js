@@ -6,6 +6,6 @@ export const Button = styled.div`
     align-items: center;
     width: 90px;
     height: 30px;
-    background-color: ${({theme, danger}) => danger ? theme.red : theme.green};
+    background-color: ${({theme:{colors}, danger}) => danger ? colors.red : colors.green};
     color: white;
 `

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import cuid from 'cuid';
 import moment from 'moment';
 import { StyledCalendar, CalendarGrid, PrevBtn, NextBtn, WeekDay, Day, CurrentDay, EmptyDay, Month, Year } from './styles/calendar';
-import { filledArray, toMatrix } from '../lib/utils';
+import { filledArray } from '../lib/utils';
 
 moment.locale('es', {
     months : 'enero_febrero_marzo_abril_mayo_junio_julio_agosto_setiembre_octubre_noviembre_diciembre'.split('_'),

@@ -61,23 +61,23 @@ injectGlobal`
       margin: 0;
       font-size: 1.6rem;
       line-height: 2;
-      color: ${theme.black};
+      color: ${theme.colors.black};
   }
   a {
       text-decoration: none;
-      color: ${theme.black};
+      color: ${theme.colors.black};
   }
 `;
 
 const StyledPage = styled.div`
-  background: ${({theme}) => theme.lace};
-  color: ${({theme}) => theme.black};
+  background: ${({theme:{colors}}) => colors.lace};
+  color: ${({theme:{colors}}) => colors.black};
 `;
 
 const Inner = styled.div`
-  max-width: ${({theme}) => theme.maxWidth};
+  max-width: ${({theme}) => theme.sizes.maxWidth};
   margin: 0 auto;
-  padding: ${({theme}) => theme.base*2}px;
+  padding: ${({theme}) => theme.spaces[2]}px;
 `;
 
 class Page extends Component {

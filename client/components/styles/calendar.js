@@ -17,7 +17,7 @@ export const CalendarGrid = styled(StyledCalendar)`
 
 export const NavBtn = styled(CalendarCell)`
     cursor: pointer;
-    background: ${({ theme }) => theme.green};
+    background: ${({theme:{colors}}) => colors.green};
     height: 50px;
     span {
         display: block;
@@ -25,7 +25,7 @@ export const NavBtn = styled(CalendarCell)`
         text-align: center;
     }
     :hover {
-        background: ${({ theme }) => theme.smalt};
+        background: ${({theme:{colors}}) => colors.smalt};
     }
 `;
 export const PrevBtn = styled(NavBtn)`
@@ -36,7 +36,7 @@ export const NextBtn = styled(NavBtn)`
 `;
 
 export const WeekDay = styled(CalendarCell)`
-    background: ${({ theme }) => theme.green};
+    background: ${({theme:{colors}}) => colors.green};
     height: 50px;
     text-transform: capitalize;
 `;
@@ -51,15 +51,15 @@ export const Year = styled(WeekDay)`
 `;
 
 export const Day = styled(CalendarCell)`
-    background: ${({ theme }) => theme.linen};
+    background: ${({theme:{colors}}) => colors.linen};
     height: 100px;
 `;
 
 export const CurrentDay = styled(Day)`
-    color: ${({ theme }) => theme.smalt};
-    border: 1px dashed ${({ theme }) => theme.smalt};
+    color: ${({theme:{colors}}) => colors.smalt};
+    border: 1px dashed ${({theme:{colors}}) => colors.smalt};
 `;
 
 export const EmptyDay = styled(Day)`
-    background: ${({ theme }) => theme.lace};
+    background: ${({theme:{colors}}) => colors.lace};
 `;

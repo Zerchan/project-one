@@ -23,12 +23,12 @@ const UIBtns = styled.div`
 `;
 
 const UIBtn = styled.a`
-  color: ${({theme}) => theme.lace};
+  color: ${({theme:{colors}}) => colors.lace};
   font-size: 3.0rem;
   width: 60px;
   height: 60px;
   text-align: center;
-  padding: 0 ${({theme}) => theme.base * 2}px;
+  padding: 0 ${({theme}) => theme.spaces[2]}px;
 `;
 
 const StyledHeader = styled.header`
@@ -37,7 +37,7 @@ const StyledHeader = styled.header`
     grid-template-columns: 1fr;
     justify-content: center;
     align-items: stretch;
-    background-color: ${({theme}) => theme.green}
+    background-color: ${({theme:{colors}}) => colors.green}
   }
 `;
 
