@@ -210,6 +210,7 @@ const Mutations = {
     });
 
     // Get all reservations that are APPROVED or PENDING
+    // TODO: Check how to filter the dates from the DB that only matches the new reservation date
     const allReservations = await ctx.db.query.reservations(
       { where: { status_not: 'DECLINED' } },
       `{
@@ -222,9 +223,8 @@ const Mutations = {
       }`
     );
 
-    // --Check if the new reservation DATE overlaps with an already existing reservation
     allReservations.forEach(reservation => {
-      // --Check if the new reservation HOURS don't overlap with an already existing reservation
+      // --Check if the new reservation don't overlap with an already existing reservation
       if(areReservationsOverlapping(args.startDate, reservation.startDate)){
         throw new Error(`Your reservation is overlapping with an existing reservation, please select a different date`);
       }
