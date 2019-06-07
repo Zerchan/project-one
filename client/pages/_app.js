@@ -1,6 +1,6 @@
 import App, { Container } from "next/app";
 import { ApolloProvider } from "react-apollo";
-// import { ApolloProvider } from 'react-apollo-hooks';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 import Page from "../components/Page";
 import withData from "../lib/withData";
 
@@ -20,9 +20,11 @@ class MyApp extends App {
     return (
       <Container>
         <ApolloProvider client={apollo}>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
+          <ApolloHooksProvider client={apollo}>
+            <Page>
+              <Component {...pageProps} />
+            </Page>
+          </ApolloHooksProvider>
         </ApolloProvider>
       </Container>
     );

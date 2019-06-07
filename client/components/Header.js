@@ -3,6 +3,7 @@ import Router from "next/router";
 import NProgress from "nprogress";
 import styled from "styled-components";
 import Nav from "./Nav";
+import useUser from './useUser';
 
 NProgress.configure({ showSpinner: false });
 
@@ -37,28 +38,33 @@ const StyledHeader = styled.header`
     grid-template-columns: 1fr;
     justify-content: center;
     align-items: stretch;
-    background-color: ${({theme:{colors}}) => colors.green}
+    background-color: ${({theme:{colors}}) => colors.green};
+    min-height: 60px;
   }
 `;
 
-const Header = () => (
-  <StyledHeader>
-    <div className="bar">
-      <UIBtns>
-        <Link href="/">
-          <UIBtn><i className="icofont-navigation-menu"></i></UIBtn>
-        </Link>
-        <Link href="/">
-          <UIBtn><i className="icofont-ui-user"></i></UIBtn>
-        </Link>
-      </UIBtns>
-      <Nav />
-    </div>
-    {/*<div className="sub-bar">
-      <p>Search</p>
-    </div>
-<div>Cart</div>*/}
-  </StyledHeader>
-);
+const Header = () => {
+  const { data } = useUser();
+  
+  return (
+    <StyledHeader>
+      <div className="bar">
+        <UIBtns>
+          {data && 
+            <>
+              <Link href="/">
+                <UIBtn><i className="icofont-navigation-menu"></i></UIBtn>
+              </Link>
+              <Link href="/">
+                <UIBtn><i className="icofont-ui-user"></i></UIBtn>
+              </Link>
+            </>
+          }
+        </UIBtns>
+        <Nav />
+      </div>
+    </StyledHeader>
+  )
+};
 
 export default Header;
